@@ -75,6 +75,8 @@ struct RemindersExport: ParsableCommand {
         // Write CSV Head
         print("title;completed;date")
         
+        let semaphore = DispatchSemaphore(value: 0)
+        
         store.fetchReminders(matching: predicate) { (reminders) in
             reminders?.forEach({ (reminder) in
                 let fields: [CustomStringConvertible] = [
@@ -85,9 +87,11 @@ struct RemindersExport: ParsableCommand {
                 
                 print(fields.map(\.description).joined(separator: ";"))
             })
+            
+            semaphore.signal()
         }
         
-        sleep(4)
+        semaphore.wait()
     }
 }
 
