@@ -41,6 +41,9 @@ struct RemindersExport: ParsableCommand {
         case didNotFindList
     }
     
+    @Flag()
+    var includeCompleted: Bool
+    
     @Option(name: .shortAndLong, help: "The name of the list to export.")
     var listName: String?
     
@@ -50,8 +53,8 @@ struct RemindersExport: ParsableCommand {
         }
         
         guard let name = listName else {
-            
-            print("list-names") // Write CSV Head
+            // Write CSV Head
+            print("list-names")
             
             calendars.forEach { (calendar) in
                 print(calendar.title)
@@ -64,13 +67,23 @@ struct RemindersExport: ParsableCommand {
         }
         
         let store = EKEventStore()
-        let predicate = store.predicateForReminders(in: [calendar])
-        
-        print("title") // Write CSV Head
+        let predicate = includeCompleted
+            ? store.predicateForReminders(in: [calendar])
+            : store.predicateForIncompleteReminders(withDueDateStarting: nil,
+                                                    ending: nil,
+                                                    calendars: [calendar])
+        // Write CSV Head
+        print("title;completed;date")
         
         store.fetchReminders(matching: predicate) { (reminders) in
             reminders?.forEach({ (reminder) in
-                print(reminder.title ?? "")
+                let fields: [CustomStringConvertible] = [
+                    reminder.title!,
+                    reminder.isCompleted,
+                    reminder.completionDate ?? "nil"
+                ]
+                
+                print(fields.map(\.description).joined(separator: ";"))
             })
         }
         
