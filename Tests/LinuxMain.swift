@@ -1,7 +1,7 @@
 import XCTest
 
-import RemindersExportCLITests
+import ExportRemindersTests
 
 var tests = [XCTestCaseEntry]()
-tests += RemindersExportCLITests.allTests()
+tests += ExportRemindersTests.allTests()
 XCTMain(tests)
