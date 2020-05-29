@@ -12,7 +12,7 @@ final class ExportRemindersTests: XCTestCase {
             return
         }
 
-        let fooBinary = productsDirectory.appendingPathComponent("ExportReminders")
+        let fooBinary = productsDirectory.appendingPathComponent("export-reminders")
 
         let process = Process()
         process.executableURL = fooBinary
