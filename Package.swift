@@ -5,6 +5,13 @@ import PackageDescription
 
 let package = Package(
     name: "ExportReminders",
+    platforms: [
+        .macOS(.v10_14),
+    ],
+    products: [
+        .executable(name: "export-reminders",
+                    targets: ["ExportReminders"]),
+    ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser", .upToNextMinor(from: "0.0.1")),
     ],
