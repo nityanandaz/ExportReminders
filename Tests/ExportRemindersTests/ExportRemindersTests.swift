@@ -3,6 +3,11 @@ import class Foundation.Bundle
 import EventKit
 
 final class ExportRemindersTests: XCTestCase {
+    /// Test with Xcode.
+    ///
+    ///     $ swift test
+    ///
+    /// produces a failure. There, authorizationStatus equals .notDetermined.
     func testPermission() {
         XCTAssertFalse(
             EKEventStore.authorizationStatus(for: .reminder) == .authorized
@@ -10,10 +15,8 @@ final class ExportRemindersTests: XCTestCase {
     }
     
     func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct
-        // results.
-
+        #warning("Update this test")
+        
         // Some of the APIs that we use below are available in macOS 10.13 and above.
         guard #available(macOS 10.13, *) else {
             return
@@ -47,8 +50,11 @@ final class ExportRemindersTests: XCTestCase {
         return Bundle.main.bundleURL
       #endif
     }
+}
 
+extension ExportRemindersTests {
     static var allTests = [
+        ("testPermission", testPermission),
         ("testExample", testExample),
     ]
 }
