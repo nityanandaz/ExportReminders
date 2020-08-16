@@ -12,8 +12,8 @@ struct RemindersExport: ParsableCommand {
         case didNotFindList
     }
     
-    @Flag()
-    var includeCompleted: Bool
+    @Flag
+    var includeCompleted: Bool = false
     
     @Option(name: .shortAndLong, help: "The name of the list to export.")
     var listName: String?
