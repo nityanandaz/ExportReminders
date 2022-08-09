@@ -4,21 +4,32 @@ final class RemindersSource {
     private var calendars: [EKCalendar]
     private let store: EKEventStore
     
-    init(store: EKEventStore = .init()) {
+    init(store: EKEventStore = .init()) throws {
         self.store = store
         self.calendars = []
         
-        let semaphore = DispatchSemaphore(value: 0)
+        var failure: Error?
         
-        self.store.requestAccess(to: .reminder) { (accessPermitted, _) in
+        let semaphore = DispatchSemaphore(value: 0)
+        self.store.requestAccess(to: .reminder) { (accessPermitted, error) in
+            if let error = error {
+                failure = error
+                return
+            }
+            
             if accessPermitted {
                 self.calendars = store.calendars(for: .reminder)
+            } else {
+                failure = Exception.accessIsNotPermitted
             }
             
             semaphore.signal()
         }
+        semaphore.wait()
         
-        _ = semaphore.wait(timeout: .now() + 3.0)
+        if let failure = failure {
+            throw failure
+        }
     }
     
     func getNames() -> [String] {
@@ -50,8 +61,8 @@ final class RemindersSource {
             
             semaphore.signal()
         }
+        semaphore.wait()
         
-        _ = semaphore.wait(timeout: .now() + 3.0)
         return fields
     }
 }

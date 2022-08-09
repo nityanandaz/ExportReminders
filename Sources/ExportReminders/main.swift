@@ -3,15 +3,11 @@ import ArgumentParser
 enum Exception: Error {
     case couldNotReadReminders
     case didNotFindList
+    case accessIsNotPermitted
+
 }
 
 struct RemindersExport: ParsableCommand {
-    
-    enum Exception: Error {
-        case couldNotReadReminders
-        case didNotFindList
-    }
-    
     @Flag
     var includeCompleted: Bool = false
     
@@ -19,7 +15,7 @@ struct RemindersExport: ParsableCommand {
     var listName: String?
     
     func run() throws {
-        let source = RemindersSource()
+        let source = try RemindersSource()
         
         guard let name = listName else {
             // Write CSV Head
