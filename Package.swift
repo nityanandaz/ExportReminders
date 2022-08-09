@@ -1,12 +1,11 @@
-// swift-tools-version:5.2
-// The swift-tools-version declares the minimum version of Swift required to build this package.
+// swift-tools-version:5.5
 
 import PackageDescription
 
 let package = Package(
     name: "ExportReminders",
     platforms: [
-        .macOS(.v10_14),
+        .macOS(.v12),
     ],
     products: [
         .executable(name: "export-reminders",
