@@ -8,17 +8,22 @@ let package = Package(
         .macOS(.v12),
     ],
     products: [
-        .executable(name: "export-reminders",
-                    targets: ["ExportReminders"]),
+        .executable(
+            name: "export-reminders",
+            targets: ["ExportReminders"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-argument-parser", .upToNextMajor(from: "0.0.1")),
+        .package(
+            url: "https://github.com/apple/swift-argument-parser",
+            .upToNextMajor(from: "1.0.0")),
     ],
     targets: [
         .target(
             name: "ExportReminders",
             dependencies: [
-                .product(name: "ArgumentParser", package: "swift-argument-parser"),
+                .product(
+                    name: "ArgumentParser",
+                    package: "swift-argument-parser"),
             ]
         ),
         .testTarget(
