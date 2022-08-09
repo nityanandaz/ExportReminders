@@ -8,7 +8,7 @@ enum Exception: Error {
 }
 
 struct RemindersExport: ParsableCommand {
-    @Flag
+    @Flag(name: .shortAndLong, help: nil)
     var includeCompleted: Bool = false
     
     @Option(name: .shortAndLong, help: "The name of the list to export.")
